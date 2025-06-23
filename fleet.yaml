@@ -1,0 +1,12 @@
+apiVersion: fleet.cattle.io/v1alpha1
+kind: GitRepo
+metadata:
+  name: python-deploy 
+  namespace: python-app
+spec:
+  repo: https://github.com/<your-org>/python-deploy.git
+  branch: main
+  paths:
+    - .
+  helm:
+    releaseName: python-app   
