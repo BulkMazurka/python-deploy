@@ -2,7 +2,7 @@ apiVersion: fleet.cattle.io/v1alpha1
 kind: GitRepo
 metadata:
   name: python-deploy 
-  namespace: python-app
+  namespace: test-deploy
 spec:
   repo: https://github.com/BulkMazurka/python-deploy.git
   branch: main
