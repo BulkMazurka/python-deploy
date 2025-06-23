@@ -6,7 +6,7 @@ image:
 
 servicePort: 80
 
-namespaceOverride: "python-app"  
+namespaceOverride: "test-deploy"  
 
 
 metrics:
