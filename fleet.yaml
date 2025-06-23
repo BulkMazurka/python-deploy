@@ -4,7 +4,7 @@ metadata:
   name: python-deploy 
   namespace: python-app
 spec:
-  repo: https://github.com/<your-org>/python-deploy.git
+  repo: https://github.com/BulkMazurka/python-deploy.git
   branch: main
   paths:
     - .
