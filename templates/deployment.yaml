@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-app
+  {{- if .Values.namespaceOverride }}
+  namespace: {{ .Values.namespaceOverride }}
+  {{- else }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-app
+    spec:
+      containers:
+        - name: flask-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.servicePort }}
+          env:
+            - name: SERVICE_FQDN
+              value: "{{ .Release.Name }}.{{ .Values.namespaceOverride | default .Release.Namespace }}.svc.cluster.local"
+          # Liveness probe: HTTP check on root (ensure app is running):contentReference[oaicite:4]{index=4}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.servicePort }}
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 1
+            failureThreshold: 3
+          # Readiness probe: HTTP check on root (ensure app is ready to serve traffic):contentReference[oaicite:5]{index=5}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.servicePort }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
