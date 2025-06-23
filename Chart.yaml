@@ -1,0 +1,5 @@
+apiVersion: v2
+name: python-deploy
+description: Helm chart to deploy the Python Flask app
+version: 0.1.0
+appVersion: "1.0"
